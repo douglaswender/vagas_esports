@@ -3,6 +3,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:vagas_esports/src/app/app_module.dart';
 import 'package:vagas_esports/src/app/app_widget.dart';
 
-void main() {
+Future<void> main() async {
   return runApp(ModularApp(module: AppModule(), child: AppWidget()));
 }

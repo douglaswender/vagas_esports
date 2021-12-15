@@ -7,8 +7,8 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Smart App',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      title: 'Vagas Esports',
+      theme: ThemeData(primarySwatch: Colors.green),
     ).modular(); //added by extension
   }
 }
