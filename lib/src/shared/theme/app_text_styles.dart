@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vagas_esports/src/shared/theme/app_theme.dart';
 
 abstract class IAppTextStyles {
   TextStyle get label;
   TextStyle get input;
-  TextStyle get buttonBackgroundColor;
-  TextStyle get buttonTextColor;
+  TextStyle get header;
+  TextStyle get buttonPrimary;
+  TextStyle get buttonSecondary;
+  TextStyle get labelGreen;
 }
 
 class AppTextStyles implements IAppTextStyles {
@@ -16,14 +19,36 @@ class AppTextStyles implements IAppTextStyles {
       );
 
   @override
-  // TODO: implement buttonBackgroundColor
-  TextStyle get buttonBackgroundColor => throw UnimplementedError();
+  TextStyle get buttonPrimary => GoogleFonts.inter(
+        fontWeight: FontWeight.w600,
+        color: AppTheme.colors.white,
+        fontSize: 16,
+      );
 
   @override
-  // TODO: implement buttonTextColor
-  TextStyle get buttonTextColor => throw UnimplementedError();
+  TextStyle get buttonSecondary => GoogleFonts.inter(
+        fontWeight: FontWeight.w600,
+        color: AppTheme.colors.green,
+        fontSize: 16,
+      );
 
   @override
-  // TODO: implement input
-  TextStyle get input => throw UnimplementedError();
+  TextStyle get input => GoogleFonts.inter(
+        fontWeight: FontWeight.w600,
+        color: AppTheme.colors.greyInput,
+        fontSize: 16,
+      );
+
+  @override
+  TextStyle get header => GoogleFonts.inter(
+        fontWeight: FontWeight.w600,
+        fontSize: 30,
+      );
+
+  @override
+  TextStyle get labelGreen => GoogleFonts.inter(
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+        color: AppTheme.colors.green,
+      );
 }
