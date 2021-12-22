@@ -1,3 +1,5 @@
+import 'package:vagas_esports/src/shared/theme/app_sizes.dart';
+
 import 'app_colors.dart';
 import 'app_text_styles.dart';
 
@@ -11,4 +13,7 @@ class AppTheme {
 
   final _textStyles = AppTextStyles();
   static AppTextStyles get textStyles => instance._textStyles;
+
+  final _sizes = AppSizes();
+  static AppSizes get sizes => instance._sizes;
 }

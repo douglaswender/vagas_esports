@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:vagas_esports/src/shared/theme/app_theme.dart';
 
 class ButtonSecondary extends StatelessWidget {
-  final Function()? onPressed;
+  final Function() onPressed;
   final String text;
   const ButtonSecondary({
     Key? key,
-    this.onPressed,
+    required this.onPressed,
     required this.text,
   }) : super(key: key);
 
@@ -22,7 +22,7 @@ class ButtonSecondary extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
           )),
         ),
-        onPressed: onPressed!,
+        onPressed: onPressed,
         child: Text(text, style: AppTheme.textStyles.buttonSecondary),
       ),
     );

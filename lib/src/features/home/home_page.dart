@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:vagas_esports/src/shared/widgets/button_primary/button_primary.dart';
 import 'package:vagas_esports/src/shared/widgets/button_secondary/button_secondary.dart';
 import 'package:vagas_esports/src/shared/widgets/input_text/input_text.dart';
@@ -25,7 +26,7 @@ class HomePage extends StatelessWidget {
             ButtonSecondary(
               text: "Esqueceu a senha?",
               onPressed: () {
-                print('Esqueceu');
+                Modular.to.pushNamed('/login');
               },
             )
           ],

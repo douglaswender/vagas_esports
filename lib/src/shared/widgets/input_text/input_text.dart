@@ -3,11 +3,14 @@ import 'package:vagas_esports/src/shared/theme/app_theme.dart';
 
 class InputText extends StatelessWidget {
   final String label;
-  final String hint;
+  final String? hint;
+  final bool isPassword;
+
   const InputText({
     Key? key,
     required this.label,
-    required this.hint,
+    this.hint,
+    this.isPassword = false,
   }) : super(key: key);
 
   @override
@@ -16,7 +19,8 @@ class InputText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32),
+          padding: EdgeInsets.symmetric(
+              vertical: AppTheme.sizes.s16, horizontal: AppTheme.sizes.s32),
           child: TextField(
             style: AppTheme.textStyles.input,
             decoration: InputDecoration(
@@ -32,6 +36,7 @@ class InputText extends StatelessWidget {
                 borderSide: BorderSide(color: AppTheme.colors.green),
               ),
             ),
+            obscureText: isPassword,
           ),
         ),
       ],

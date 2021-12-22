@@ -22,7 +22,7 @@ class ButtonPrimary extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
           )),
         ),
-        onPressed: onPressed!,
+        onPressed: onPressed,
         child: Text(text, style: AppTheme.textStyles.buttonPrimary),
       ),
     );
