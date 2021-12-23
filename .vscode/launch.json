@@ -7,7 +7,13 @@
         {
             "name": "vagas_esports",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--dart-define",
+                "SUPABASEURL=https://lillhpygvxhzocazorpr.supabase.co",
+                "--dart-define",
+                "SUPABASEKEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzODkwNjU1MCwiZXhwIjoxOTU0NDgyNTUwfQ.kuNS18aRqcT47cyY3tjSpL9Tqwni1IooAxaXIRr7Zwc",
+            ]
         },
         {
             "name": "vagas_esports (profile mode)",

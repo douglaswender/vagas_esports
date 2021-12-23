@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:vagas_esports/src/features/home/home_page.dart';
-import 'package:vagas_esports/src/features/login/presentation/login_page.dart';
+import 'package:vagas_esports/src/pages/home/home_page.dart';
+import 'package:vagas_esports/src/pages/login/login_module.dart';
+import 'package:vagas_esports/src/pages/register/presentation/register_page.dart';
 
 class AppModule extends Module {
   @override
@@ -9,6 +10,7 @@ class AppModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute('/', child: (context, args) => HomePage()),
-        ChildRoute('/login', child: (context, args) => LoginPage()),
+        ModuleRoute('/login/', module: LoginModule()),
+        ChildRoute('/register', child: (context, args) => RegisterPage()),
       ];
 }

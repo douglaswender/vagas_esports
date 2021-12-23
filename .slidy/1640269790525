@@ -1,0 +1,2 @@
+lib/src/manager/product/page/my_cubit_controller.dart
+test/src/manager/product/page/my_cubit_controller_test.dart

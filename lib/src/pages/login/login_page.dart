@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:vagas_esports/src/pages/login/cubit/login_cubit.dart';
 import 'package:vagas_esports/src/shared/theme/app_theme.dart';
+import 'package:vagas_esports/src/shared/widgets/bottom_sheet_loading/bottom_sheet_loading.dart';
 import 'package:vagas_esports/src/shared/widgets/button_primary/button_primary.dart';
 import 'package:vagas_esports/src/shared/widgets/button_secondary/button_secondary.dart';
 import 'package:vagas_esports/src/shared/widgets/input_text/input_text.dart';
+import 'package:validators/validators.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final LoginCubit _bloc = Modular.get<LoginCubit>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +41,6 @@ class LoginPage extends StatelessWidget {
                     padding: EdgeInsets.only(right: AppTheme.sizes.s8),
                     child: TextButton(
                       onPressed: () {
-                        print('registro');
                         Modular.to.pushNamed('/register');
                       },
                       child: Text(
@@ -47,46 +56,62 @@ class LoginPage extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: AppTheme.sizes.s16,
-            ),
-            Expanded(
+          child: Column(
+        children: [
+          SizedBox(
+            height: AppTheme.sizes.s16,
+          ),
+          Expanded(
+            child: Form(
+              key: _bloc.formKey,
               child: Column(
                 children: [
-                  InputText(label: "Email"),
+                  InputText(
+                    label: "Email",
+                    validator: (value) =>
+                        isEmail(value) ? null : "Digite um e-mail válido",
+                  ),
                   InputText(
                     label: "Senha",
-                    isPassword: true,
+                    obscure: true,
                   ),
                 ],
               ),
             ),
-            Column(
-              children: [
-                ButtonPrimary(
-                  onPressed: () {
-                    print('login');
-                  },
-                  text: "Entrar",
-                ),
-                SizedBox(
-                  height: AppTheme.sizes.s8,
-                ),
-                ButtonSecondary(
-                  text: "Esqueceu a senha?",
-                  onPressed: () {
-                    print('senha');
-                  },
-                ),
-                SizedBox(
-                  height: AppTheme.sizes.s8,
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+          Column(
+            children: [
+              ButtonPrimary(
+                onPressed: () {
+                  _bloc.login();
+                },
+                text: "Entrar",
+              ),
+              SizedBox(
+                height: AppTheme.sizes.s8,
+              ),
+              ButtonSecondary(
+                text: "Esqueceu a senha?",
+                onPressed: () {
+                  print('senha');
+                },
+              ),
+              SizedBox(
+                height: AppTheme.sizes.s8,
+              ),
+            ],
+          ),
+        ],
+      )),
+      bottomSheet: BlocBuilder<LoginCubit, LoginState>(
+        bloc: _bloc,
+        builder: (context, state) {
+          if (state is LoginLoading) {
+            return BottomSheetLoading();
+          } else {
+            return SizedBox();
+          }
+        },
       ),
     );
   }
