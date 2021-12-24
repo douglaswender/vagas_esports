@@ -35,7 +35,7 @@ class AppTextStyles implements IAppTextStyles {
   @override
   TextStyle get input => GoogleFonts.inter(
         fontWeight: FontWeight.w600,
-        color: AppTheme.colors.greyInput,
+        color: AppTheme.colors.black,
         fontSize: 16,
       );
 

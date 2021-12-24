@@ -43,12 +43,21 @@ class InputText extends StatelessWidget {
             decoration: InputDecoration(
               labelText: label,
               hintStyle: AppTheme.textStyles.input,
+              labelStyle: AppTheme.textStyles.label,
               hintText: hint,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: AppTheme.colors.green),
               ),
               focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: AppTheme.colors.green),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: AppTheme.colors.green),
+              ),
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: AppTheme.colors.green),
               ),

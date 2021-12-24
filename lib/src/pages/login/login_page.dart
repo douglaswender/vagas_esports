@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -18,6 +20,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final LoginCubit _bloc = Modular.get<LoginCubit>();
+
+  @override
+  void initState() {
+    _bloc.listen((state) {
+      if (state is LoginSuccess) {
+        print('success');
+        Modular.to
+            .pushNamedAndRemoveUntil("/home", ModalRoute.withName('/login'));
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +81,11 @@ class _LoginPageState extends State<LoginPage> {
               key: _bloc.formKey,
               child: Column(
                 children: [
+                  Image.asset(
+                    "assets/images/logo.png",
+                    height: 128,
+                    width: 128,
+                  ),
                   InputText(
                     label: "Email",
                     validator: (value) =>
@@ -74,6 +94,8 @@ class _LoginPageState extends State<LoginPage> {
                   InputText(
                     label: "Senha",
                     obscure: true,
+                    validator: (value) =>
+                        value.length > 6 ? null : "Informe uma senha válida",
                   ),
                 ],
               ),

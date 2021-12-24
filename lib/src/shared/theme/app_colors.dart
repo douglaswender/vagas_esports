@@ -6,6 +6,7 @@ abstract class IAppColors {
   Color get white;
   Color get grey;
   Color get greyInput;
+  Color get black;
 }
 
 class AppColors implements IAppColors {
@@ -23,4 +24,7 @@ class AppColors implements IAppColors {
 
   @override
   Color get greyInput => const Color(0xFFBDBDBD);
+
+  @override
+  Color get black => const Color(0xFF474747);
 }
