@@ -18,16 +18,12 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final LoginCubit _bloc = Modular.get<LoginCubit>();
-
+class _LoginPageState extends ModularState<LoginPage, LoginCubit> {
   @override
   void initState() {
-    _bloc.listen((state) {
+    controller.listen((state) {
       if (state is LoginSuccess) {
-        print('success');
-        Modular.to
-            .pushNamedAndRemoveUntil("/home", ModalRoute.withName('/login'));
+        Modular.to.pushReplacementNamed("/home");
       }
     });
     super.initState();
@@ -78,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Expanded(
             child: Form(
-              key: _bloc.formKey,
+              key: controller.formKey,
               child: Column(
                 children: [
                   Image.asset(
@@ -86,16 +82,31 @@ class _LoginPageState extends State<LoginPage> {
                     height: 128,
                     width: 128,
                   ),
-                  InputText(
-                    label: "Email",
-                    validator: (value) =>
-                        isEmail(value) ? null : "Digite um e-mail válido",
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: AppTheme.sizes.s16),
+                    child: InputText(
+                      label: "Email",
+                      validator: (value) =>
+                          isEmail(value) ? null : "Digite um e-mail válido",
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) => controller.onChange(email: value),
+                    ),
                   ),
-                  InputText(
-                    label: "Senha",
-                    obscure: true,
-                    validator: (value) =>
-                        value.length > 6 ? null : "Informe uma senha válida",
+                  SizedBox(
+                    height: AppTheme.sizes.s16,
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: AppTheme.sizes.s16),
+                    child: InputText(
+                      label: "Senha",
+                      obscure: true,
+                      validator: (value) =>
+                          value.length > 5 ? null : "Informe uma senha válida",
+                      onChanged: (value) =>
+                          controller.onChange(password: value),
+                    ),
                   ),
                 ],
               ),
@@ -105,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               ButtonPrimary(
                 onPressed: () {
-                  _bloc.login();
+                  controller.login();
                 },
                 text: "Entrar",
               ),
@@ -126,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
         ],
       )),
       bottomSheet: BlocBuilder<LoginCubit, LoginState>(
-        bloc: _bloc,
+        bloc: controller,
         builder: (context, state) {
           if (state is LoginLoading) {
             return BottomSheetLoading();

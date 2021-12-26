@@ -1,37 +1,249 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:vagas_esports/src/shared/widgets/button_primary/button_primary.dart';
-import 'package:vagas_esports/src/shared/widgets/button_secondary/button_secondary.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:vagas_esports/src/pages/home/cubit/home_cubit.dart';
+import 'package:vagas_esports/src/shared/theme/app_theme.dart';
+import 'package:vagas_esports/src/shared/widgets/bottom_sheet_loading/bottom_sheet_loading.dart';
+import 'package:vagas_esports/src/shared/widgets/filters_widget/filters_widget.dart';
+import 'package:vagas_esports/src/shared/widgets/horizontal_list_loading/horizontal_list_loading.dart';
 import 'package:vagas_esports/src/shared/widgets/input_text/input_text.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ModularState<HomePage, HomeCubit> {
+  @override
+  void initState() {
+    controller.init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppTheme.sizes.s64),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: AppTheme.sizes.s8),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Vagas',
+                    style: AppTheme.textStyles.header,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: AppTheme.sizes.s8),
+                    child: TextButton(
+                      onPressed: controller.filters,
+                      child: Text(
+                        'Filtros',
+                        style: AppTheme.textStyles.buttonSecondary,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
-      body: Center(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppTheme.sizes.s16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            InputText(label: 'label', hint: 'hint'),
-            ButtonPrimary(
-              text: "Cadastre-se",
-              onPressed: () {
-                print('Cadastre');
+            InputText(
+              label: 'Pesquisar',
+              hint: 'Nome, nick ou lane',
+              onChanged: (value) {},
+            ),
+            SizedBox(
+              height: AppTheme.sizes.s16,
+            ),
+            BlocBuilder(
+              bloc: controller,
+              builder: (_, state) {
+                if (state is HomeSuccess) {
+                  if (state.isShowFilters!) {
+                    return FiltersWidget(
+                      title: "Função",
+                      subtitle: "Situação",
+                      options: [
+                        "Top",
+                        "Jungle",
+                        "Mid",
+                        "Atirador",
+                        "Suporte",
+                        "Staff",
+                      ],
+                    );
+                  }
+                } else {
+                  return Container();
+                }
+                return Container();
               },
             ),
-            ButtonSecondary(
-              text: "Esqueceu a senha?",
-              onPressed: () {
-                Modular.to.pushNamed('/login');
-              },
-            )
+            Expanded(
+              child: ListView(
+                children: [
+                  SizedBox(
+                    height: AppTheme.sizes.s32,
+                  ),
+                  Text(
+                    "Novas!",
+                    style: AppTheme.textStyles.title,
+                  ),
+                  SizedBox(
+                    height: AppTheme.sizes.s16,
+                  ),
+                  BlocBuilder(
+                    bloc: controller,
+                    builder: (context, state) {
+                      if (state is HomeSuccess) {
+                        return SizedBox(
+                          height: 110,
+                          child: ListView.builder(
+                              itemCount: state.hotVacancies!.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      right: AppTheme.sizes.s16),
+                                  child: Container(
+                                    width: 110.0,
+                                    height: 110.0,
+                                    color: Colors.white,
+                                    child: Text(
+                                        state.hotVacancies![index].contact!),
+                                  ),
+                                );
+                              }),
+                        );
+                      } else if (state is HomeLoading) {
+                        return HorizontalListLoading();
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: AppTheme.sizes.s32,
+                  ),
+                  Text(
+                    "Destaques!",
+                    style: AppTheme.textStyles.title,
+                  ),
+                  SizedBox(
+                    height: AppTheme.sizes.s16,
+                  ),
+                  BlocBuilder(
+                    bloc: controller,
+                    builder: (context, state) {
+                      if (state is HomeSuccess) {
+                        return SizedBox(
+                          height: 110,
+                          child: ListView.builder(
+                              itemCount: state.topVacancies!.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      right: AppTheme.sizes.s16),
+                                  child: Container(
+                                    width: 110.0,
+                                    height: 110.0,
+                                    color: Colors.white,
+                                    child: Text(
+                                        state.topVacancies![index].contact!),
+                                  ),
+                                );
+                              }),
+                        );
+                      } else if (state is HomeLoading) {
+                        return HorizontalListLoading();
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: AppTheme.sizes.s32,
+                  ),
+                  Text(
+                    "Todas vagas!",
+                    style: AppTheme.textStyles.title,
+                  ),
+                  SizedBox(
+                    height: AppTheme.sizes.s16,
+                  ),
+                  BlocBuilder(
+                    bloc: controller,
+                    builder: (context, state) {
+                      if (state is HomeSuccess) {
+                        return SizedBox(
+                          height: 110,
+                          child: ListView.builder(
+                              itemCount: state.allVacancies!.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      right: AppTheme.sizes.s16),
+                                  child: Container(
+                                    width: 110.0,
+                                    height: 110.0,
+                                    color: Colors.white,
+                                    child: Text(
+                                        state.allVacancies![index].contact!),
+                                  ),
+                                );
+                              }),
+                        );
+                      } else if (state is HomeLoading) {
+                        return HorizontalListLoading();
+                      } else {
+                        return Container();
+                      }
+                    },
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_basket), label: "Vagas"),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Feed"),
+        ],
+      ),
+      // bottomSheet: BlocBuilder<HomeCubit, HomeState>(
+      //   bloc: controller,
+      //   builder: (context, state) {
+      //     if (state is HomeLoading) {
+      //       return BottomSheetLoading();
+      //     } else {
+      //       return SizedBox();
+      //     }
+      //   },
+      // ),
     );
   }
 }

@@ -9,6 +9,7 @@ abstract class IAppTextStyles {
   TextStyle get buttonPrimary;
   TextStyle get buttonSecondary;
   TextStyle get labelGreen;
+  TextStyle get title;
 }
 
 class AppTextStyles implements IAppTextStyles {
@@ -50,5 +51,12 @@ class AppTextStyles implements IAppTextStyles {
         fontWeight: FontWeight.w500,
         fontSize: 16,
         color: AppTheme.colors.green,
+      );
+
+  @override
+  TextStyle get title => GoogleFonts.inter(
+        fontWeight: FontWeight.w500,
+        fontSize: 24,
+        color: AppTheme.colors.black,
       );
 }

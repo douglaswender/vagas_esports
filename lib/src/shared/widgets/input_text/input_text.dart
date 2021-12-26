@@ -27,43 +27,39 @@ class InputText extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: AppTheme.sizes.s16, horizontal: AppTheme.sizes.s32),
-          child: TextFormField(
-            keyboardType: keyboardType,
-            inputFormatters: inputFormatters,
-            onChanged: onChanged,
-            validator: (value) {
-              if (validator != null) {
-                return validator!(value ?? "");
-              }
-            },
-            style: AppTheme.textStyles.input,
-            decoration: InputDecoration(
-              labelText: label,
-              hintStyle: AppTheme.textStyles.input,
-              labelStyle: AppTheme.textStyles.label,
-              hintText: hint,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: AppTheme.colors.green),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: AppTheme.colors.green),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: AppTheme.colors.green),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: AppTheme.colors.green),
-              ),
+        TextFormField(
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          onChanged: onChanged,
+          validator: (value) {
+            if (validator != null) {
+              return validator!(value ?? "");
+            }
+          },
+          style: AppTheme.textStyles.input,
+          decoration: InputDecoration(
+            labelText: label,
+            hintStyle: AppTheme.textStyles.input,
+            labelStyle: AppTheme.textStyles.label,
+            hintText: hint,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: AppTheme.colors.green),
             ),
-            obscureText: obscure,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: AppTheme.colors.green),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: AppTheme.colors.green),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: AppTheme.colors.green),
+            ),
           ),
+          obscureText: obscure,
         ),
       ],
     );

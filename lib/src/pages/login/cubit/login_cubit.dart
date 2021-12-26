@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:meta/meta.dart';
 import 'package:vagas_esports/src/shared/data/models/user_model.dart';
 
@@ -20,8 +21,13 @@ class LoginCubit extends Cubit<LoginState> {
       await Future.delayed(Duration(seconds: 4));
       /* 
       final response = await repository.login(email: _email, password: _password);
+
       */
-      //TODO: mudar para: LoginSuccess<UserModel>(response)
+
+      Modular.get<UserModel>().copyWith(
+        email: 'dglswender@gmail.com',
+        password: "asdfaçlds",
+      );
       emit(LoginSuccess<UserModel>(UserModel(email: 'email')));
     }
   }
