@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:vagas_esports/src/pages/home/cubit/home_cubit.dart';
 import 'package:vagas_esports/src/shared/theme/app_theme.dart';
 import 'package:vagas_esports/src/shared/widgets/bottom_sheet_loading/bottom_sheet_loading.dart';
+import 'package:vagas_esports/src/shared/widgets/filters_widget/checkbox_item.dart';
+import 'package:vagas_esports/src/shared/widgets/filters_widget/filters_controller.dart';
 import 'package:vagas_esports/src/shared/widgets/filters_widget/filters_widget.dart';
 import 'package:vagas_esports/src/shared/widgets/horizontal_list_loading/horizontal_list_loading.dart';
 import 'package:vagas_esports/src/shared/widgets/input_text/input_text.dart';
@@ -17,9 +18,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeCubit> {
+  List<CheckboxItem> options = [
+    CheckboxItem(label: "Top", selected: false),
+    CheckboxItem(label: "Jungle", selected: false),
+    CheckboxItem(label: "Mid", selected: false),
+    CheckboxItem(label: "Atirador", selected: false),
+    CheckboxItem(label: "Suporte", selected: false),
+    CheckboxItem(label: "Staff", selected: false),
+  ];
+
+  FiltersController? filterController;
+
   @override
   void initState() {
     controller.init();
+    filterController = FiltersController(allOptions: options);
     super.initState();
   }
 
@@ -67,38 +80,36 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
             InputText(
               label: 'Pesquisar',
               hint: 'Nome, nick ou lane',
-              onChanged: (value) {},
+              onChanged: (value) {
+                controller.searchText = value;
+              },
+              suffixIcon: Icons.search,
+              onSuffixIconTap: () => print(filterController!.allSelectedItems),
             ),
             SizedBox(
               height: AppTheme.sizes.s16,
             ),
-            BlocBuilder(
-              bloc: controller,
-              builder: (_, state) {
-                if (state is HomeSuccess) {
-                  if (state.isShowFilters!) {
-                    return FiltersWidget(
-                      title: "Função",
-                      subtitle: "Situação",
-                      options: [
-                        "Top",
-                        "Jungle",
-                        "Mid",
-                        "Atirador",
-                        "Suporte",
-                        "Staff",
-                      ],
-                    );
-                  }
-                } else {
-                  return Container();
-                }
-                return Container();
-              },
-            ),
             Expanded(
               child: ListView(
                 children: [
+                  BlocBuilder(
+                    bloc: controller,
+                    builder: (_, state) {
+                      if (state is HomeSuccess) {
+                        if (state.isShowFilters!) {
+                          return FiltersWidget(
+                            controller: filterController!,
+                            title: "Função",
+                            subtitle: "Situação",
+                            options: options,
+                          );
+                        }
+                      } else {
+                        return Container();
+                      }
+                      return Container();
+                    },
+                  ),
                   SizedBox(
                     height: AppTheme.sizes.s32,
                   ),

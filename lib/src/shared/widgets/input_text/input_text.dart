@@ -8,6 +8,8 @@ class InputText extends StatelessWidget {
   final bool obscure;
   final void Function(String)? onChanged;
   final String? Function(String)? validator;
+  final IconData? suffixIcon;
+  final void Function()? onSuffixIconTap;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
 
@@ -20,6 +22,8 @@ class InputText extends StatelessWidget {
     this.validator,
     this.inputFormatters,
     this.keyboardType,
+    this.suffixIcon,
+    this.onSuffixIconTap,
   }) : super(key: key);
 
   @override
@@ -39,6 +43,12 @@ class InputText extends StatelessWidget {
           style: AppTheme.textStyles.input,
           decoration: InputDecoration(
             labelText: label,
+            suffixIcon: suffixIcon != null
+                ? GestureDetector(
+                    onTap: onSuffixIconTap,
+                    child: Icon(suffixIcon!),
+                  )
+                : null,
             hintStyle: AppTheme.textStyles.input,
             labelStyle: AppTheme.textStyles.label,
             hintText: hint,

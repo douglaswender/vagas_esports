@@ -32,7 +32,7 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  void onChange({String? email, String? password}) {
+  void onChangeInput({String? email, String? password}) {
     _email = email ?? _email;
     _password = password ?? _password;
   }

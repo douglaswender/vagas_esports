@@ -20,3 +20,13 @@ class HomeSuccess extends HomeState {
     this.isShowFilters = false,
   });
 }
+
+class HomeSuccessSearch extends HomeState {
+  final List<VacancyModel>? allVacancies;
+  final bool? isShowFilters;
+
+  HomeSuccessSearch({
+    this.allVacancies,
+    this.isShowFilters = false,
+  });
+}

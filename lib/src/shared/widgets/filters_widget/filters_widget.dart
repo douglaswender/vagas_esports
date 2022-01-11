@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:vagas_esports/src/shared/theme/app_theme.dart';
 import 'package:vagas_esports/src/shared/widgets/checkbox/checkbox.dart';
+import 'package:vagas_esports/src/shared/widgets/filters_widget/filters_controller.dart';
+
+import 'checkbox_item.dart';
 
 class FiltersWidget extends StatefulWidget {
   final String title;
   final String subtitle;
+  final FiltersController controller;
 
-  final List<String> options;
+  final List<CheckboxItem> options;
 
   const FiltersWidget({
     Key? key,
     required this.title,
     required this.subtitle,
     required this.options,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -39,7 +44,13 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           Expanded(
             child: Wrap(
               alignment: WrapAlignment.center,
-              children: [...widget.options.map((e) => CheckBox(label: e))],
+              children: [
+                ...widget.options.map((e) => CheckBox(
+                      label: e.label,
+                      selected: e.selected,
+                      onSelect: () => widget.controller.addSelectedItem(e),
+                    ))
+              ],
             ),
           ),
         ],

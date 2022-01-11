@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:vagas_esports/src/shared/data/models/vacancy_model.dart';
+import 'package:vagas_esports/src/shared/widgets/filters_widget/checkbox_item.dart';
 
 part 'home_state.dart';
 
@@ -53,6 +54,22 @@ class HomeCubit extends Cubit<HomeState> {
     await Future.delayed(Duration(seconds: 1));
     final response =
         (mockAll['data'] as List).map((e) => VacancyModel.fromMap(e)).toList();
+
+    return response;
+  }
+
+  Future<List<VacancyModel>> filterVacancies(
+    String text,
+    List<CheckboxItem> filters,
+  ) async {
+    emit(HomeLoading());
+    await Future.delayed(Duration(seconds: 2));
+    final response =
+        (mockAll['data'] as List).map((e) => VacancyModel.fromMap(e)).toList();
+    emit(HomeSuccessSearch(
+      allVacancies: response,
+      isShowFilters: false,
+    ));
 
     return response;
   }

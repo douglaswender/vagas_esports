@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -21,7 +19,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends ModularState<LoginPage, LoginCubit> {
   @override
   void initState() {
-    controller.listen((state) {
+    controller.stream.listen((state) {
       if (state is LoginSuccess) {
         Modular.to.pushReplacementNamed("/home");
       }
@@ -90,7 +88,8 @@ class _LoginPageState extends ModularState<LoginPage, LoginCubit> {
                       validator: (value) =>
                           isEmail(value) ? null : "Digite um e-mail válido",
                       keyboardType: TextInputType.emailAddress,
-                      onChanged: (value) => controller.onChange(email: value),
+                      onChanged: (value) =>
+                          controller.onChangeInput(email: value),
                     ),
                   ),
                   SizedBox(
@@ -105,7 +104,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginCubit> {
                       validator: (value) =>
                           value.length > 5 ? null : "Informe uma senha válida",
                       onChanged: (value) =>
-                          controller.onChange(password: value),
+                          controller.onChangeInput(password: value),
                     ),
                   ),
                 ],
